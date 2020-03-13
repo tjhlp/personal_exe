@@ -1,36 +1,38 @@
-# class Demo(object):
-#     def __init__(self):
-#         self.__age = 10
-#
-#     def get_age(self):
-#         return self.__age
-#
-#
-#     def set_age(self, new_age):
-#         self.__age = new_age
-#
-#     age = property(get_age, set_age)
-# d1 = Demo()
-# print(d1.age)
-# d1.age = 100
-# print(d1.age)
-class Demo(object):
-    def __init__(self):
-        self.__age = 10
+"""
+给定一个大小为 n 的数组，找到其中的多数元素。多数元素是指在数组中出现次数大于 ⌊ n/2 ⌋ 的元素。
 
-    @property
-    def age_demo(self):
-        return self.__age
+你可以假设数组是非空的，并且给定的数组总是存在多数元素。
 
-    @age_demo.setter
-    def age_demo(self, new_age):
-        self.__age = new_age
+示例 1:
 
+输入: [3,2,3]
+输出: 3
 
-d1 = Demo()
-print(d1.age_demo)
-d1.age_demo = 100
-print(d1.age_demo)
+来源：力扣（LeetCode）
+链接：https://leetcode-cn.com/problems/majority-element
+
+"""
+
+import collections
+class Solution:
+    def majorityElement(self, nums):
+        length = len(nums) / 2
+        dict_a = {}
+        print(length)
+        if length < 1:
+            return nums[0]
+
+        for i in nums:
+            if i in dict_a:
+                dict_a[i] += 1
+                if dict_a[i] > length:
+                    return i
+            else:
+                dict_a[i] = 1
 
 
-
+s = Solution()
+print(s.majorityElement([6,5,5]))
+nums = [6, 5, 5]
+res = [k for k, v in collections.Counter(nums).items() if v> len(nums)//2][0]
+print(res)
