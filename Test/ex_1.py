@@ -39,5 +39,5 @@ nums = [6, 5, 5]
 # best solution
 res = [k for k, v in collections.Counter(nums).items() if v > len(nums) // 2][0]
 print(res)
-c1 =collections.Counter([2, 3, 4, 5, 6, 4, 3, 2, 4, 5])
+c1 = collections.Counter([2, 3, 4, 5, 6, 4, 3, 2, 4, 5])
 print(dict(c1))
