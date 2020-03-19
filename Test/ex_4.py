@@ -54,5 +54,6 @@ class Solution:
 
 
 data = 'aabbvvvvvaa'
+
 s = Solution()
 print(s.compressString(data))
