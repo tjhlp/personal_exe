@@ -35,4 +35,5 @@ data_arr = [0, 1, 2, 2, 2, 1, 3, 6, 3, 1, 8, 2, 5, 3, 11, 4, 11, 12, 6, 2, 7, 19
             27, 66, 14, 68, 81, 48, 51, 33, 17, 35, 71, 31]
 data_k = 24
 data = s.getLeastNumbers(data_arr, data_k)
+
 print(data)
