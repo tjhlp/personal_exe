@@ -18,6 +18,8 @@
 链接：https://leetcode-cn.com/problems/as-far-from-land-as-possible
 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
 """
+
+
 class Solution:
     def maxDistance(self, grid) -> int:
         m, n = len(grid), len(grid[0])
@@ -25,7 +27,7 @@ class Solution:
         for i in range(m):
             for w in range(n):
                 if grid[i][w] == 1:
-                    result.append((i,w))
+                    result.append((i, w))
                 else:
                     grid[i][w] = 0
         if len(result) == 0 or len(result) == m * n:
@@ -35,17 +37,23 @@ class Solution:
             count += 1
             for i in range(len(result)):
                 x, y = result.pop(0)
-                if x + 1 < m and grid[x+1][y] == 0:
-                    result.append((x+1, y))
-                    grid[x+1][y] = -1
-                if x - 1 >= 0 and grid[x-1][y] == 0:
-                    result.append((x-1, y))
-                    grid[x-1][y] = -1
-                if y + 1 < n and grid[x][y+1] == 0:
-                    result.append((x, y+1))
-                    grid[x][y+1] = -1
-                if y - 1 >= 0 and grid[x][y-1] == 0:
-                    result.append((x, y-1))
-                    grid[x][y-1] = -1
+                if x + 1 < m and grid[x + 1][y] == 0:
+                    result.append((x + 1, y))
+                    grid[x + 1][y] = -1
+                if x - 1 >= 0 and grid[x - 1][y] == 0:
+                    result.append((x - 1, y))
+                    grid[x - 1][y] = -1
+                if y + 1 < n and grid[x][y + 1] == 0:
+                    result.append((x, y + 1))
+                    grid[x][y + 1] = -1
+                if y - 1 >= 0 and grid[x][y - 1] == 0:
+                    result.append((x, y - 1))
+                    grid[x][y - 1] = -1
         return count - 1
 
+
+s = Solution()
+res = s.maxDistance([[1, 0, 0],
+                     [0, 0, 0],
+                     [0, 0, 0]])
+print(res)
