@@ -4,6 +4,33 @@
 from selenium import webdriver
 import csv
 import time
+import matplotlib.pyplot as plt
+
+
+def plot_data(plot_data, filenames):
+    """
+    将信息可视化
+    :param plot_data: 以键值对信息传入
+    :param filenames: 保存文件的位置
+    :return: None
+    """
+    ball_list = []
+    x_core = []
+    y_core = []
+    for key, value in plot_data.items():
+        x_core.append(key)
+        ball_list.append(key)
+        y_core.append(value)
+    # plt.rcParams['figure.figsize'] = (20, 8.0)  # 显示大小
+    plt.bar(x_core, y_core, facecolor='orange')
+    # 添加数字标号
+    # for score, pos in zip(y_core, x_core):
+    #     plt.text(score + 2, pos, '%d' % score)
+    plt.savefig(filenames)
+    plt.xticks(x_core)
+    plt.yticks(y_core)
+    plt.legend(loc='best')
+    plt.show()
 
 
 class TicketPredict(object):
@@ -63,8 +90,10 @@ class TicketPredict(object):
         self.ticket_info.pop(0)
 
     def predict(self):
-        b_dict = {}
-        a_dict = {}
+
+        a_dict = {i: 0 for i in range(1, 34)}
+        b_dict = {i: 0 for i in range(1, 17)}
+
         for temp_info in self.ticket_info:
             r_ball_list = temp_info[2]
             b_ball = int(temp_info[3])
@@ -72,10 +101,11 @@ class TicketPredict(object):
             # ball_list.append(blue_ball)
             for i in range(2, len(r_ball_list) + 2, 2):
                 r_ball = int(r_ball_list[i - 2:i])
-                a_dict[r_ball] = (a_dict[r_ball] + 1) if r_ball in a_dict else 1
-            b_dict[b_ball] = (b_dict[b_ball] + 1) if b_ball in b_dict else 1
-        print(a_dict)
-        print(b_dict)
+                a_dict[r_ball] += 1
+            b_dict[b_ball] += 1
+        plot_data(a_dict, 'jpg/red_ball.jpg')
+        plot_data(b_dict, 'jpg/blue_ball.jpg')
+
 
 
 # url = 'http://www.cwl.gov.cn/cwl_admin/kjxx/findDrawNotice?name=ssq&issueCount=30'
