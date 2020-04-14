@@ -21,13 +21,12 @@ def plot_data(plot_data, filenames):
         x_core.append(key)
         ball_list.append(key)
         y_core.append(value)
-    # plt.rcParams['figure.figsize'] = (20, 8.0)  # 显示大小
+    plt.rcParams['figure.figsize'] = (20, 8.0)  # 显示大小
     plt.bar(x_core, y_core, facecolor='orange')
     # 添加数字标号
     for score, pos in zip(x_core, y_core):
         plt.text(score, pos, '%d' % pos)
     plt.xticks(x_core)
-    plt.yticks(y_core)
     plt.legend(loc='best')
     plt.savefig(filenames)
     plt.show()
@@ -97,14 +96,10 @@ class TicketPredict(object):
         for temp_info in self.ticket_info:
             r_ball_list = temp_info[2]
             b_ball = int(temp_info[3])
-            # ball_list = [r_ball_list[i - 2:i] for i in range(2, len(red_ball) + 2, 2)]
-            # ball_list.append(blue_ball)
             for i in range(2, len(r_ball_list) + 2, 2):
                 r_ball = int(r_ball_list[i - 2:i])
                 a_dict[r_ball] += 1
             b_dict[b_ball] += 1
-        print(a_dict)
-        print(b_dict)
         plot_data(a_dict, 'jpg/red_ball.jpg')
         plot_data(b_dict, 'jpg/blue_ball.jpg')
 
