@@ -7,6 +7,8 @@ import time
 import matplotlib.pyplot as plt
 
 
+# ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------,
+
 def plot_data(plot_data, filenames, index=1):
     """
     将信息可视化
@@ -41,14 +43,14 @@ def plot_data(plot_data, filenames, index=1):
 class TicketPredict(object):
     def __init__(self, url):
         self.url = url
-        self.title = ['periods', 'ticket_date', 'red_ball', 'blue_ball']
+        self.title = ['periods', 'red_ball', 'blue_ball']
         self.ticket_info = []
         self.browser = None
 
     def get_ticket(self):
         self.browser = webdriver.Chrome('./chromedriver')
         self.browser.get(url)
-        time.sleep(10)
+        time.sleep(1)
         # 查看源码
         # html = self.browser.page_source
         # print(html)
@@ -62,7 +64,6 @@ class TicketPredict(object):
             item["ticket_red_ball"] = td_list[1].text
             item["ticket_blue_ball"] = td_list[2].text
             self.ticket_info.append(item)
-            print(item)
         self.ticket_info.pop(-1)
         print(len(self.ticket_info))
         self.browser.close()
@@ -96,9 +97,10 @@ class TicketPredict(object):
     def save_csv(self):
         self.get_ticket()
         self.write_csv()
+        self.ticket_info.pop(0)
 
     def predict(self):
-        self.read_csv()
+
         a_dict = {i: 0 for i in range(1, 34)}
         b_dict = {i: 0 for i in range(1, 17)}
 
@@ -114,9 +116,9 @@ class TicketPredict(object):
         plot_data(b_dict, 'jpg/blue_ball.jpg', index=1)
 
 
-
-# url = 'http://www.cwl.gov.cn/cwl_admin/kjxx/findDrawNotice?name=ssq&issueCount=30'
 url = 'https://www.17500.cn/ssq/newinfo9.php'
 t = TicketPredict(url)
+# t.get_ticket()
 # t.save_csv()
+t.read_csv()
 t.predict()
