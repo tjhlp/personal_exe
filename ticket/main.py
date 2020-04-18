@@ -40,7 +40,7 @@ def plot_bar_pic(plot_data, filenames, index=1, count=1, p_type=1):
     plt.legend(loc='best')
     plt.xlabel(label_dict['标题'][index])
     plt.savefig(filenames)
-    # plt.show()
+    plt.show()
 
 
 class TicketPredict(object):
@@ -119,10 +119,11 @@ class TicketPredict(object):
 
         # 统计出现频次
         f_index = 1
-        for v in freq.values():
-            z = Counter(v)
+        for v in range(6):
+            z = Counter(freq[v])
             # 求第一个位置出现的最大值
             # max_num = max(dict(z), key=dict(z).get)
+            print(dict(z))
             plot_bar_pic(dict(z), 'jpg/freq_red_' + str(f_index) + '.jpg', index=2, p_type=2, count=f_index)
             f_index += 1
 
@@ -133,4 +134,4 @@ class TicketPredict(object):
 url = 'https://www.17500.cn/ssq/newinfo9.php'
 t = TicketPredict(url)
 # t.save_csv()
-t.predict()
+t.predict(num=1000)
