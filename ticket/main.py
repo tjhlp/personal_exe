@@ -80,7 +80,7 @@ class TicketPredict(object):
         self.predict(process_data)
 
         # 保存数据
-        write_csv('ticket_test.csv', process_data, self.title)
+        write_csv(r"C:\Users\TJH\Desktop\data+processing\Ticket_Test.csv", process_data, self.title)
 
 
 if __name__ == '__main__':
