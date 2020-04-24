@@ -20,7 +20,7 @@ class TicketPredict(object):
     def get_ticket(self):
         params = {
             'q1': '2003001',
-            'q2': '2020026',
+            'q2': '2020028',
             'action': 'submitted',
             'submit': '(unable to decode value)'
         }
@@ -77,10 +77,10 @@ class TicketPredict(object):
         # process_data = read_csv('ticket_test.csv')
 
         # 预测数据
-        self.predict(process_data)
-
+        # self.predict(process_data)
+        print(process_data)
         # 保存数据
-        write_csv(r"C:\Users\TJH\Desktop\data+processing\Ticket_Test.csv", process_data, self.title)
+        write_csv("Ticket_Test.csv", process_data, self.title)
 
 
 if __name__ == '__main__':
