@@ -5,8 +5,8 @@ from collections import Counter
 import requests
 from lxml import etree
 
-from ticket.file_control import write_csv, read_csv
-from ticket.plot_pic import plot_bar_pic
+from ex.file_control import write_csv, read_csv
+from ex.plot_pic import plot_bar_pic
 
 
 class TicketPredict(object):
@@ -81,6 +81,8 @@ class TicketPredict(object):
         print(process_data)
         # 保存数据
         write_csv("Ticket_Test.csv", process_data, self.title)
+
+        return process_data
 
 
 if __name__ == '__main__':
