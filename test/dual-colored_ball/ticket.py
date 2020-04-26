@@ -5,8 +5,8 @@ from collections import Counter
 import requests
 from lxml import etree
 
-from ex.file_control import write_csv, read_csv
-from ex.plot_pic import plot_bar_pic
+from test.file_control import write_csv
+from test.plot_pic import plot_bar_pic
 
 
 class TicketPredict(object):
