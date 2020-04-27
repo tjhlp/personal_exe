@@ -1,10 +1,10 @@
 from flask import Flask
 from flask import jsonify
 
-# from  import TicketPredict
+from test.dual_colored_ball.ticket import TicketPredict
 
 app = Flask(__name__)
-# ticket_predict = TicketPredict()
+ticket_predict = TicketPredict()
 
 @app.route('/')
 def ticket():
