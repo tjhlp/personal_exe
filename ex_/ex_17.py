@@ -118,3 +118,15 @@ g = dict_1.get('a')
 dict_1.pop('a')
 dict_1.update({'a':'33'})
 print(dict_1)
+
+str1 = 'abc fddds'
+# t = str1.split(' ')
+zz = str1.index('f')
+cou = str1.count('d')
+
+print(cou)
+print(zz)
+
+
+
+
