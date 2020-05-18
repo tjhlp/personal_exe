@@ -1,4 +1,9 @@
+import os
 
-a = b = 1
-print(a)
-print(b)
+def print_dir(path):
+
+    temp_dirs = os.listdir(path)
+    for i in temp_dirs:
+        print(i)
+        if os.path.isdir(i):
+            return print_dir(i)
