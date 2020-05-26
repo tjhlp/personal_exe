@@ -42,4 +42,8 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    # main()
+    a = {'a': 2}
+    b = a
+    print(a)
+    print(b)
