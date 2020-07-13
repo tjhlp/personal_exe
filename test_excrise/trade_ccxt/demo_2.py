@@ -6,7 +6,7 @@ bian_exchange = ccxt.binance({
     "enableRateLimit": True,
     'urls': {
         'logo': 'https://user-images.githubusercontent.com/1294454/29604020-d5483cdc-87ee-11e7-94c7-d1a8d9169293.jpg',
-        'test': {
+        'test_excrise': {
             'fapiPublic': 'https://testnet.binancezhfuture.com/fapi/v1',
             'fapiPrivate': 'https://testnet.binancezhfuture.com/fapi/v1',
             'public': 'https://testnet.binancezh.vision/api/v3',

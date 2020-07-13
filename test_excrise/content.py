@@ -1,7 +1,7 @@
 from flask import Flask
 from flask import jsonify
 
-from test.dual_colored_ball.ticket import TicketPredict
+from test_excrise.dual_colored_ball.ticket import TicketPredict
 
 app = Flask(__name__)
 ticket_predict = TicketPredict()
