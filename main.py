@@ -1,26 +1,28 @@
-def demo(func):
-    def insert():
-        print('demo')
-        return func()
+# -*- coding: utf-8 -*-
+# File              : flp_app.py
+# Author            : tjh
+# Create Date       : 2020/07/02
+# Last Modified Date: 2020/07/02
+# Last Modified By  : tjh
+# Reference         :
+# Description       :
+# ******************************************************
 
-    return insert
+from flask import Flask
+
+from apps.upload_download_app import json_blu
+from apps.model_app import model_blu
+
+manager = Flask(__name__)
 
 
-def demo_1():
-    x = 8 / (1 + 1) * (3 + 2) - 1
-    print(x)
+def main():
+    # 路径严格关闭
+    # manager.url_map.strict_slashes = False
+    manager.register_blueprint(json_blu, url_prefix='/json')
+    manager.register_blueprint(model_blu, url_prefix='/model')
+    manager.run(host='127.0.0.1', port=8000, debug=True)
 
 
 if __name__ == '__main__':
-    # demo_1()
-    # print(len('2019-06-15,2019-07-01'))
-    # print(eval('demo_1()'))
-    # print(eval('demo_1()'))
-    # print(eval('9/(1+1) *3+(3+2)'))
-    dict_a = {"js1":123,"js2":5555}
-    if "js3" and "js2" in dict_a:
-        print(111)
-
-
-
-
+    main()

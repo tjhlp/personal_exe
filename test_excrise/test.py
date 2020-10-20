@@ -2,7 +2,7 @@ import importlib.util
 mName = "demo.test1"
 
 
-module_file_path = r'D:\personal\exercise\personal_exe\test1.py'
+module_file_path = r'/test_ex/test1.py'
 module_spec = importlib.util.spec_from_file_location('test1', module_file_path)
 print(module_spec)
 module = importlib.util.module_from_spec(module_spec)
