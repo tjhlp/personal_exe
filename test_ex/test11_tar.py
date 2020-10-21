@@ -8,14 +8,13 @@
 # Description       :
 # ******************************************************
 import tarfile
-import os
-# tar_name = 'output_data.tar.gz'
-# tar = tarfile.open(tar_name, mode='w:gz')
-# output_tmp_dir = r'D:\personal\exercise\personal_exe\test_ex'
-# output_data_file_path = r'D:\personal\exercise\personal_exe\test_ex\output_data.csv'
-# tar.add(output_data_file_path, os.path.relpath(output_data_file_path, output_tmp_dir))
-# tar.close()
 
-t = tarfile.open(r'/\33_output_data.tar.gz')
-t.extractall('./')
 
+file_path = "./output_log_2.tar.gz"
+extract_path ="./"
+
+tar = tarfile.open(file_path, "r:gz")
+file_names = tar.getnames()
+for file_name in file_names:
+    tar.extract(file_name, extract_path)
+tar.close()

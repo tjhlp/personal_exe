@@ -19,6 +19,4 @@ html = '<html><head><meta charset="UTF-8"></head>' \
        '<body><div align="center"><p>%s</p></div></body></html>' % content
 
 config = pdfkit.configuration(wkhtmltopdf=r"C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf.exe")
-# pdfkit.from_url('http://www.baidu.com', 'url_test.pdf',configuration=config)
 pdfkit.from_string(html, 'string_test.pdf', configuration=config)
-# pdfkit.from_file('xxx.html','file_test.pdf',configuration=config)
