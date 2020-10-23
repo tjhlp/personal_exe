@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# File              : test3.py
+# File              : test3_manger.py
 # Author            : tjh
 # Create Date       : 2020/07/13
 # Last Modified Date: 2020/07/13
@@ -75,6 +75,12 @@ def main():
     # 路径严格关闭
     manager.url_map.strict_slashes = False
     manager.run(host='127.0.0.1', port=8000, debug=True)
+    import py_eureka_client.eureka_client as eureka_client
+
+    your_rest_server_port = 8000
+    eureka_client.init(eureka_server="http://192.168.0.130:8761/eureka/",
+                       app_name="application",
+                       instance_port=your_rest_server_port)
 
 
 if __name__ == '__main__':
