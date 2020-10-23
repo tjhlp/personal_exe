@@ -1,87 +1,28 @@
-# -*- coding: utf-8 -*-
-# File              : test3_manger.py
-# Author            : tjh
-# Create Date       : 2020/07/13
-# Last Modified Date: 2020/07/13
-# Last Modified By  : tjh
-# Reference         :
-# Description       :
-# ******************************************************
+from flask import Flask
+import py_eureka_client.eureka_client as eureka_client
+
+app = Flask(__name__)
 
 
-# -*- coding: utf-8 -*-
-# File              : flp_app.py
-# Author            : tjh
-# Create Date       : 2020/07/02
-# Last Modified Date: 2020/07/02
-# Last Modified By  : tjh
-# Reference         :
-# Description       :
-# ******************************************************
-import os
-import json
-import logging
-import requests
-from flask import Flask, request, send_from_directory
-
-from utils.response_code import *
-from utils.server_resolver import get_post_data
-
-manager = Flask(__name__)
+def setEureka():
+    server_host = "localhost"
+    server_port = 5000
+    eureka_client.init(eureka_server="http://192.168.0.130:8761/eureka",
+                       app_name="flask_server",
+                       # 当前组件的主机名，可选参数，如果不填写会自动计算一个，如果服务和 eureka 服务器部署在同一台机器，请必须填写，否则会计算出 127.0.0.1
+                       instance_host=server_host,
+                       instance_port=server_port,
+                       # 调用其他服务时的高可用策略，可选，默认为随机
+                       ha_strategy=eureka_client.HA_STRATEGY_RANDOM)
 
 
-@manager.route('/upload_json/', methods=['post'])
-def upload_json():
-    file = request.files['file']
-    filename = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'upload_tmp', file.filename)
-    res = []
-    for i in file:
-        tmp = i.decode()
-        res.append(tmp)
-    try:
-        file.save(filename)
-    except Exception as e:
-        logging.info('file save got exception:%s' % e)
-        return get_response(CODE_FILE_FAILURE)
-
-    return get_response(CODE_SUCCESS, res)
+setEureka()
 
 
-@manager.route('/download_json/')
-def download_json():
-    rsp = send_from_directory(r"/root/node_fl/templates", filename="guest_request_builtin_model_template.json",
-                              as_attachment=True)
-
-    return rsp
-
-
-@manager.route('/run_model/', methods=['post'])
-def run_model():
-    try:
-        config_path = "/root/node_fl/templates/guest_request_builtin_model_template_0708.json"
-        post_data = get_post_data(config_path)
-        response = requests.post("http://192.168.1.122:9380/v1/job/submit", json=post_data)
-        # print(response.content)
-        rsp = response.text
-        t = json.loads(rsp)
-    except Exception as e:
-        return get_response(CODE_TASK_ERROR)
-
-    res = {'jobID': t['jobId']}
-    return get_response(CODE_SUCCESS, res)
-
-
-def main():
-    # 路径严格关闭
-    manager.url_map.strict_slashes = False
-    manager.run(host='127.0.0.1', port=8000, debug=True)
-    import py_eureka_client.eureka_client as eureka_client
-
-    your_rest_server_port = 8000
-    eureka_client.init(eureka_server="http://192.168.0.130:8761/eureka/",
-                       app_name="application",
-                       instance_port=your_rest_server_port)
+@app.route('/')
+def hello_world():
+    return 'Hello World!'
 
 
 if __name__ == '__main__':
-    main()
+    app.run(debug=True, threaded=True, port=5000, host="0.0.0.0")
