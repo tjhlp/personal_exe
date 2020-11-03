@@ -116,14 +116,16 @@ def table_info():
 
     }
     try:
-        url = 'http://39.129.9.83:9382/v1/table/table_info'
+        # url = 'http://39.129.9.83:9382/v1/table/table_info'
+        url = 'http://39.129.9.14:9382/v1/table/table_info'
         rsp = requests.post(url, json=params)
         rsp = rsp.text
     except Exception as e:
+        print(str(e))
         rsp = {
             'error_msg': e
         }
 
     return rsp
-print("breast_hetero_mini_host.csv"[:-4])
+# print("breast_hetero_mini_host.csv"[:-4])
 print(table_info())
