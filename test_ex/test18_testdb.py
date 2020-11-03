@@ -9,10 +9,10 @@
 # ******************************************************
 
 DB_PROF = {
-    'host': '192.168.1.116',
-    'port': 7306,
-    'user': 'cloud',
-    'password': 'Cloud@2020',
+    'host': '192.168.1.122',
+    'port': 9306,
+    'user': 'root',
+    'password': 'ZZfwq@2020',
     'database': 'prof_model_set',
     'charset': 'utf8',
     'autocommit': True,
@@ -39,7 +39,7 @@ import pymysql
 
 conn1 = pymysql.connect(**DB_PROF)
 cur1 = conn1.cursor()
-sql1 = 'select * from TAB_PROF_MODEL_INFO where Model_ID=1'
+sql1 = "select * from TAB_CSV_SOURCE where source_name like '%custom%'"
 cur1.execute(sql1)
 print(cur1.fetchall())
 cur1.close()
