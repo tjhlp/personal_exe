@@ -22,7 +22,7 @@ upload_param = {
     "use_local_data": "0",
     "drop": "1"
 }
-files = {'file': open(r'D:\personal\exercise\personal_exe\test_ex\longhua_company_penalty.csv', 'rb', encoding='utf-8')}
+files = {'file': open(r'D:\personal\exercise\personal_exe\test_ex\longhua_company_penalty.csv', 'r', encoding='utf-8')}
 
 "breast_hetero_mini_host.csv"
 rsp = requests.post(url, files=files, params=upload_param)

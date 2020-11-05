@@ -112,7 +112,7 @@ import requests
 def table_info():
     params = {
         "namespace": "test",
-        "table_name": "longhua_company_penalty"
+        "table_name": "breast_hetero_mini_guest"
 
     }
     try:
