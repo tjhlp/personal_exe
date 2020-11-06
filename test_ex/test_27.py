@@ -1,22 +1,28 @@
 #!/usr/bin/env python
 # coding: utf-8
 
+# In[35]:
+
 
 import json
-import numpy as np
 import pandas as pd
 from sklearn.preprocessing import LabelEncoder
 import os
 import re
+
 import json
 
 
-def transfer(data):
-    total_dic = {}
-    if data.columns[0] != '编号':
-        data.insert(0, '编号', data.index.values)
-    else:
-        pass
+class MyEncoder(json.JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, bytes):
+            return str(obj, encoding='utf-8')
+
+        return json.JSONEncoder.default(self, obj)
+
+
+def split1(data, output_splitmap_path):
+    total_dic = []
     for column in data.keys():
         try:
             newdf = []
@@ -26,13 +32,12 @@ def transfer(data):
             data['条例名称'] = newdf1.iloc[:, 1]
             data['条'] = newdf1.iloc[:, 3]
             data['款'] = newdf1.iloc[:, 4]
-            col1 = data['条例名称']
-            col2 = data['条']
-            col3 = data['款']
             data = data
-            next()
+            total_dic.append(['处罚依据:', ['条款名称', '条', '款']])
+
         except:
-            pass
+            continue
+
     for column in data.keys():
         if data[column].dtypes == 'int64' or data[column].dtypes == 'float64':
             pass
@@ -42,49 +47,40 @@ def transfer(data):
                 data['年'] = data[column].dt.year
                 data['月'] = data[column].dt.month
                 data['日'] = data[column].dt.day
-                year = data['年']
-                month = data['月']
-                day = data['日']
-                projection_list1 = []
-                for col in [year, month, day]:
-                    projection_list = []
-                    for i in range(0, len(col.unique())):
-                        mydic = {}
-                        mydic[str(col[i])] = {}
-                        projection_list.append(mydic)
-                    mydic1 = {}
-                    mydic1[col.name] = projection_list
-                    projection_list1.append(mydic1)
-                mydic2 = {}
-                mydic2[column] = projection_list1
-                total_dic.update(mydic2)
+                total_dic.append(['日期:', ['年', '月', '日']])
             except:
-                try:
-                    if len(data[column].unique()) / len(data[column]) < 0.1:
-                        factors = pd.factorize(data[column])
-                        data[column] = factors[0]
-                        projection_list = []
-                        for i in range(0, len(factors[1])):
-                            mydic = {}
-                            mydic[factors[1][i]] = i
+                pass
 
-                            projection_list.append(mydic)
-                        mydic2 = {}
-                        mydic2[column] = projection_list
-                        total_dic.update(mydic2)
-                    else:
-                        pass
-                except:
-                    pass
-    print(total_dic)  ####对应关系
-    # print(data)####转换后的数据
-    return data
+    with open(output_splitmap_path, 'w', encoding='utf-8') as f_out:
+        f_out.write(str(total_dic))
+    return data, total_dic
+
+
+def transfer(input_csv_path, output_csv_path, output_mapping_path, output_header_path, output_splitmap_path,
+             encoding='utf-8'):
+    """
+    输入原数据路径：input_csv_path
+    输出处理后的数据路径：output_csv_path
+    输出处理后的对应关系：output_mapping_path
+    """
+    data = pd.read_csv(open(input_csv_path, encoding='utf-8'))
+    data, total_dic = split1(data, output_splitmap_path)
+    encoder = LabelEncoder()
+
+    str2int_mapping = {}
+    for col in data.keys():
+        if data[col].dtype == object:
+            data[col] = data[col].str.strip()
+            data[col] = encoder.fit_transform(data[col].astype(str))
+            str2int_mapping[col] = list(encoder.classes_)
+    data.to_csv(output_csv_path, encoding=encoding, index=False, header=False)
+    return total_dic, str2int_mapping, str(list(data.keys()))
 
 
 if __name__ == "__main__":
-    data1 = pd.read_csv(open('./个人行政处罚模拟数据.csv', encoding='gbk'))
-    data2 = pd.read_csv(open('./个人贷款数据.csv', encoding='gbk'))
-    transfer(data1)
-    transfer(data2)
-    data1.to_csv('./个人行政处罚模拟数据.csv', encoding='utf-8')
-    data2.to_csv('./个人贷款数据.csv', encoding='utf-8')
+    input_csv_path = './个人行政处罚模拟数据.csv'
+    output_csv_path = './个人行政处罚模拟数据1.csv'
+    output_mapping_path = './mapping.json'
+    output_header_path = './header.txt'
+    output_splitmap_path = '/splitmap.txt'
+    transfer(input_csv_path, output_csv_path, output_mapping_path, output_header_path, output_splitmap_path)
