@@ -28,6 +28,8 @@ class MyEncoder(json.JSONEncoder):
 
 def split1(data):
     total_dic = []
+    data.drop('身份证号', errors='ignore')
+    data.drop('手机号', errors='ignore')
     for column in data.keys():
         try:
             newdf = []
@@ -42,7 +44,7 @@ def split1(data):
 
         except Exception as e:
 
-            print(str(e))
+            continue
 
 
     for column in data.keys():
@@ -57,7 +59,7 @@ def split1(data):
                 total_dic.append(['日期:', ['年', '月', '日']])
             except Exception as e:
                 print(str(e))
-                pass
+                continue
 
     return data, total_dic
 
