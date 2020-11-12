@@ -28,10 +28,10 @@ class MyEncoder(json.JSONEncoder):
 
 def split1(data):
     total_dic = []
-    data.drop('身份证号', errors='ignore')
-    data.drop('手机号', errors='ignore')
+    data = data.drop('身份证号', errors='ignore', axis=1)
+    data = data.drop('手机号', errors='ignore', axis=1)
     for column in data.keys():
-
+        # print(data)
         if (data[column].dtype == 'int64' or data[column].dtype == 'float64') & (len(data[column].unique()) == 2):
             print('{}是二分类数据'.format(column))
         elif data[column].dtype == 'int64':
@@ -51,8 +51,6 @@ def split1(data):
             data['款'] = newdf1.iloc[:, 4]
             data = data
             total_dic.append(['处罚依据:', ['条款名称', '条', '款']])
-
-
 
         except Exception as e:
 
