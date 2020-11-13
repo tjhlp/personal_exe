@@ -61,17 +61,17 @@ def split1(data):
 
     for column in data.keys():
 
-        flag = 'string'
-        if (data[column].dtype == 'int64' or data[column].dtype == 'float64') & (len(data[column].unique()) == 2):
-            flag = 'binary'
-        elif data[column].dtype == 'int64':
-            flag = 'int'
-        elif data[column].dtype == 'float64':
-            flag = 'float'
-        else:
-            flag = 'string'
-
-        total_dic[column] = {"type": flag}
+        # flag = 'string'
+        # if (data[column].dtype == 'int64' or data[column].dtype == 'float64') & (len(data[column].unique()) == 2):
+        #     flag = 'binary'
+        # elif data[column].dtype == 'int64':
+        #     flag = 'int'
+        # elif data[column].dtype == 'float64':
+        #     flag = 'float'
+        # else:
+        #     flag = 'string'
+        #
+        # total_dic[column] = {"type": flag}
 
         if data[column].dtypes == 'int64' or data[column].dtypes == 'float64':
             pass
@@ -86,6 +86,7 @@ def split1(data):
                 # print(str(e))
                 continue
     print(total_dic)
+    print(len(total_dic))
     return data, total_dic
 
 
@@ -115,9 +116,9 @@ def transfer(input_csv_path, output_csv_path, encoding='utf-8'):
 
 
 if __name__ == "__main__":
-    input_csv_path = './个人行政处罚模拟数据.csv'
-    output_csv_path = './个人行政处罚模拟数据1.csv'
-    # input_csv_path = './个人贷款数据.csv'
-    # output_csv_path = './个人贷款数据1.csv'
+    # input_csv_path = './个人行政处罚模拟数据.csv'
+    # output_csv_path = './个人行政处罚模拟数据1.csv'
+    input_csv_path = './个人贷款数据.csv'
+    output_csv_path = './个人贷款数据1.csv'
 
     transfer(input_csv_path, output_csv_path)
