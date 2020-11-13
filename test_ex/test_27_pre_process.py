@@ -27,19 +27,22 @@ class MyEncoder(json.JSONEncoder):
 
 
 def split1(data):
-    total_dic = []
+    total_dic = {}
     data = data.drop('身份证号', errors='ignore', axis=1)
     data = data.drop('手机号', errors='ignore', axis=1)
     for column in data.keys():
         # print(data)
+        flag = 'string'
         if (data[column].dtype == 'int64' or data[column].dtype == 'float64') & (len(data[column].unique()) == 2):
-            print('{}是二分类数据'.format(column))
+            flag = 'binary'
         elif data[column].dtype == 'int64':
-            print('{}是"int"类数据'.format(column))
+            flag = 'int'
         elif data[column].dtype == 'float64':
-            print('{}是"float"类数据'.format(column))
+            flag = 'float'
         else:
-            print('{}是不符合要求的数据'.format(column))
+            flag = 'string'
+
+        total_dic[column] = {"type": flag}
 
         try:
             newdf = []
@@ -50,13 +53,26 @@ def split1(data):
             data['条'] = newdf1.iloc[:, 3]
             data['款'] = newdf1.iloc[:, 4]
             data = data
-            total_dic.append(['处罚依据:', ['条款名称', '条', '款']])
+            total_dic[column]['map'] = ['条款名称', '条', '款']
 
         except Exception as e:
 
             continue
 
     for column in data.keys():
+
+        flag = 'string'
+        if (data[column].dtype == 'int64' or data[column].dtype == 'float64') & (len(data[column].unique()) == 2):
+            flag = 'binary'
+        elif data[column].dtype == 'int64':
+            flag = 'int'
+        elif data[column].dtype == 'float64':
+            flag = 'float'
+        else:
+            flag = 'string'
+
+        total_dic[column] = {"type": flag}
+
         if data[column].dtypes == 'int64' or data[column].dtypes == 'float64':
             pass
         elif data[column].dtypes == 'object':
@@ -65,7 +81,7 @@ def split1(data):
                 data['年'] = data[column].dt.year
                 data['月'] = data[column].dt.month
                 data['日'] = data[column].dt.day
-                total_dic.append(['日期:', ['年', '月', '日']])
+                total_dic['日期']['map'] = ['年', '月', '日']
             except Exception as e:
                 # print(str(e))
                 continue
@@ -99,9 +115,9 @@ def transfer(input_csv_path, output_csv_path, encoding='utf-8'):
 
 
 if __name__ == "__main__":
-    # input_csv_path = './个人行政处罚模拟数据.csv'
-    # output_csv_path = './个人行政处罚模拟数据1.csv'
-    input_csv_path = './个人贷款数据.csv'
-    output_csv_path = './个人贷款数据1.csv'
+    input_csv_path = './个人行政处罚模拟数据.csv'
+    output_csv_path = './个人行政处罚模拟数据1.csv'
+    # input_csv_path = './个人贷款数据.csv'
+    # output_csv_path = './个人贷款数据1.csv'
 
     transfer(input_csv_path, output_csv_path)
