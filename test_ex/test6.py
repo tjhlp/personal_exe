@@ -1,34 +1,45 @@
-# -*- coding: utf-8 -*-
-# File              : test6.py
-# Author            : tjh
-# Create Date       : 2020/07/16
-# Last Modified Date: 2020/07/16
-# Last Modified By  : tjh
-# Reference         :
-# Description       :
-# ******************************************************
-
-model_name = '太子路交通拥挤模型'
-model_target = '交通拥挤指数'
-model_object = ['蛇口太子路18号', '2020-05-28 18:00', '2020-05-28 21:00']
-
-source_rule = {
-    'source_1': {
-        'tab_online_order': {'p1': ['speed', 'avg'], 'p2': ['track_record', 'max'], 'p3': ['number_of_lights', 'sum']},
-        'tab_traffic_light': {'p4': ['road', 'max'], 'p5': ['traffic_light', 'min']}
-    },
-    'source_2': {}
-
-}
-source_unrule = {
-    'source_1':{
-        'tab_finance_risk'
-    }
-}
-# constant = {'cp1': '10'}
-relation = {'source_1': '10 * p1 +p2/(p3*200+4) + 0.4 *p4'}
-ret = {
-    'web_data':  {
-        ''
-    }
-}
+data = {'job_dsl': {'components': {'dataio_0': {'module': 'DataIO', 'input': {'data': {'data': ['args.train_data']}},
+                                         'output': {'data': ['train'], 'model': ['dataio']}},
+                            'intersection_0': {'module': 'Intersection',
+                                               'input': {'data': {'data': ['dataio_0.train']}},
+                                               'output': {'data': ['intersect_train']}},
+                            'feature_scale_0': {'module': 'FeatureScale',
+                                                'input': {'data': {'data': ['intersection_0.intersect_train']}},
+                                                'output': {'data': ['scale_train'], 'model': ['feature_scale']}},
+                            'hetero_lr_0': {'module': 'HeteroLR',
+                                            'input': {'data': {'train_data': ['feature_scale_0.scale_train']}},
+                                            'output': {'data': ['trained_data'], 'model': ['hetero_lr']}},
+                            'evaluation_0': {'module': 'Evaluation',
+                                             'input': {'data': {'data': ['hetero_lr_0.trained_data']}},
+                                             'output': {'data': ['evaluate']}}}},
+ 'job_runtime_conf': {'initiator': {'role': 'guest', 'party_id': 16800},
+                      'job_parameters': {'work_mode': 1, 'processors_per_node': 2},
+                      'role': {'guest': [16800], 'host': [16899], 'arbiter': [16800]}, 'role_parameters': {'guest': {
+         'args': {'data': {'train_data': [{'name': 'breast_hetero_mini_guest', 'namespace': 'test'}],
+                           'eval_data': [{'name': 'breast_hetero_mini_guest', 'namespace': 'test'}]}},
+         'dataio_0': {'with_label': [True], 'label_name': ['y'], 'label_type': ['int'], 'output_format': ['dense'],
+                      'missing_fill': [True], 'missing_fill_method': ['min']},
+         'feature_scale_0': {'method': ['standard_scale'], 'need_run': [True]},
+         'evaluation_0': {'eval_type': ['binary'], 'pos_label': [1]}}, 'host': {'args': {
+         'data': {'train_data': [{'name': 'breast_hetero_mini_host', 'namespace': 'test'}],
+                  'eval_data': [{'name': 'breast_hetero_mini_host', 'namespace': 'test'}]}},
+                                                                                'dataio_0': {'with_label': [False],
+                                                                                             'output_format': ['dense'],
+                                                                                             'missing_fill': [True],
+                                                                                             'outlier_replace': [True]},
+                                                                                'feature_scale_0': {
+                                                                                    'method': ['standard_scale'],
+                                                                                    'need_run': [True]}}},
+                      'algorithm_parameters': {'hetero_lr_0': {'alpha': 0.01, 'batch_size': -1,
+                                                               'cv_param': {'evaluate_param': {'eval_type': 'binary'},
+                                                                            'n_splits': 5, 'need_cv': False,
+                                                                            'random_seed': 103, 'shuffle': False},
+                                                               'early_stop': 'weight_diff',
+                                                               'init_param': {'init_method': 'random_uniform'},
+                                                               'learning_rate': 0.15, 'max_iter': 2, 'optimizer': 'sqn',
+                                                               'penalty': 'L2',
+                                                               'sqn_param': {'memory_M': 5, 'random_seed': None,
+                                                                             'sample_size': 5000,
+                                                                             'update_interval_L': 3}, 'tol': 0.0001},
+                                               'intersect_0': {'intersect_method': 'rsa', 'sync_intersect_ids': True,
+                                                               'only_output_key': False}}}}

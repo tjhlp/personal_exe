@@ -8,8 +8,8 @@ executor = ThreadPoolExecutor(10)
 
 def doFileParse(filepath, segment, wordslist):
     try:
+
         time.sleep(wordslist)
-        print(4/0)
     except Exception as e:
         return {'wordslist': '11111'}
     return {'wordslist': wordslist}
@@ -22,8 +22,10 @@ def p_call_back(res):
 
 for i in range(0, 4):
     ar.append(i)
-    newTask = executor.submit(lambda p: doFileParse(*p), ar).add_done_callback(p_call_back)
+    print(ar)
+    # newTask = executor.submit(lambda p: doFileParse(*p), ar).add_done_callback(p_call_back)
+    newTask = executor.submit(lambda p: doFileParse(*p), ar)
     ar = ['filepath', 'thu1']
-    print(newTask)
+    # print(newTask)
 
 # print(111)
