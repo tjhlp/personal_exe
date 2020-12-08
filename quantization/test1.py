@@ -8,6 +8,10 @@
 # Description       :
 # ******************************************************
 
-pro_url = 'http://{}/prof_model/run_inner_model/'
-print(pro_url[pro_url.find('}')+1:])
-str1 = 'http://ilh.szlhq.gov.cn/elf-gov-longhua/prof_model/run_inner_model/'
+from sklearn.datasets import load_iris
+iris =load_iris()
+
+
+iris.keys()
+
+
