@@ -11,8 +11,26 @@
 from sklearn.datasets import load_iris
 iris =load_iris()
 
-
+print(iris)
 t = iris.keys()
+print(t)
+print(t)
+print(t)
+print(t)
+print(t)
+print(t)
+print(t)
+print(t)
+print(t)
+print(t)
+print(t)
+print(t)
+print(t)
+print(t)
+print(t)
+print(t)
+print(t)
+print(t)
 print(t)
 
 
