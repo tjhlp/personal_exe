@@ -24,4 +24,5 @@ hs_stock = ts.get_hs300s()
 
 print(hs_stock)
 print(type(hs_stock))
-
+for i in hs_stock:
+    print(i)
