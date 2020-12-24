@@ -19,7 +19,7 @@ options = webdriver.ChromeOptions()
 options.add_argument(
     'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36')
 
-# options.add_argument('--headless')
+options.add_argument('--headless')
 browser = webdriver.Chrome('./chromedriver.exe', chrome_options=options)
 
 
@@ -57,60 +57,86 @@ s_time = return_date('time')
 
 def get_goods_url(browser, url):
     browser.get(url)
-    li_list = browser.find_elements_by_xpath('//a[@class="a-link-normal"]')
-    goods_url = [i.get_attribute('href') for i in li_list]
-    return goods_url
+    li_list = browser.find_elements_by_xpath('//li[@class="zg-item-immersion"]')
+    goods = {}
+    for li in li_list:
+        rank = li.find_element_by_xpath('.//span[@class="zg-badge-text"]').text
+        good_url = li.find_element_by_xpath('.//a[@class="a-link-normal"]').get_attribute("href")
+        prices = li.find_elements_by_xpath('.//span[@class="p13n-sc-price"]')
+        price_list = []
+        for price in prices:
+            price_list.append(price.text)
+        goods[rank] = {}
+        goods[rank]["good_url"] = good_url
+        goods[rank]["price"] = price_list
+    return goods
 
 
-def get_goods_detail(browser, goods_url):
+def get_goods_detail(browser, goods):
     res = []
     num = 1
-    for good_url in goods_url:
-        time.sleep(1000)
-        print(good_url)
+    sum_cost_time = 0
+    for rank, goods_info in goods.items():
+        time.sleep(1)
         start_time = return_date('time')
+
         try:
-            browser.get(good_url)
+            browser.get(goods_info['good_url'])
             name = browser.find_element_by_xpath('.//span[@id="productTitle"]').text
             brand = browser.find_element_by_xpath('.//a[@id="bylineInfo"]').text
             score = browser.find_element_by_xpath('.//span[@id="acrPopover"]').get_attribute("title")
             points_element = browser.find_elements_by_xpath('.//div[@id="feature-bullets"]/ul/li')
             img_url = browser.find_element_by_xpath('.//div[@id="imgTagWrapperId"]/img').get_attribute("src")
             questions = browser.find_element_by_xpath('.//a[@id="askATFLink"]/span').text
-            price = browser.find_element_by_xpath('.//span[@id="priceblock_dealprice"]').text
         except Exception as e:
+            print(goods_info['good_url'])
             print(e)
+            good_res = {
+                "rank": rank,
+                "price": goods_info['price'],
+                "good_url": goods_info['good_url'],
+                "name": '',
+                "brand": '',
+                "score": '',
+                "point": '',
+                "img_url": '',
+                "questions": 0,
+            }
+            res.append(good_res)
             continue
 
         point = []
         for point_element in points_element:
             point.append(point_element.find_element_by_xpath('.//span').text)
-        goods = {
-            "goods": good_url,
+        good_res = {
+            "rank": rank,
+            "price": goods_info['price'],
+            "good_url": goods_info['good_url'],
             "name": name,
             "brand": brand,
             "score": score,
             "point": point,
             "img_url": img_url,
             "questions": questions,
-            "price": price,
         }
-        res.append(goods)
-        end_time = return_date('time')
-        print('The %s good calc:%ss ' % (num, calc_time_interval(start_time, end_time)))
+        res.append(good_res)
+        cost_time = calc_time_interval(start_time, return_date('time'))
+        sum_cost_time += cost_time
+        avg_time = sum_cost_time / num
+        print('The %s good calc:%ss ' % (num, cost_time))
+        print('sum_time:%ss, avg_time calc:%ss ' % (sum_cost_time, avg_time))
         num += 1
-        print(goods)
-        break
     return res
+
 
 total_res = []
 for top_url in top_urls:
-    goods_url = get_goods_url(browser, top_url)
-    total_res.extend(get_goods_detail(browser, goods_url))
-    break
+    goods = get_goods_url(browser, top_url)
+    total_res.extend(get_goods_detail(browser, goods))
 
 print('goods calc:%ss ' % (calc_time_interval(s_time, return_date('time'))))
-df = pd.DataFrame(total_res, columns=['goods_url', 'name', 'brand', 'score', 'point', 'img_url', 'questions', 'price'])
+df = pd.DataFrame(total_res,
+                  columns=["rank", "price", 'goods_url', 'name', 'brand', 'score', 'point', 'img_url', 'questions'])
 df.to_csv('./ymx.csv', encoding='gbk', index=False)
 
 # browser.quit()
