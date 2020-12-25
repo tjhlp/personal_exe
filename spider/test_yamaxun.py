@@ -91,7 +91,6 @@ def get_goods_detail(browser, goods):
             score = browser.find_element_by_xpath('.//span[@id="acrPopover"]').get_attribute("title")
             points_element = browser.find_elements_by_xpath('.//div[@id="feature-bullets"]/ul/li')
             img_url = browser.find_element_by_xpath('.//div[@id="imgTagWrapperId"]/img').get_attribute("src")
-            questions = browser.find_element_by_xpath('.//a[@id="askATFLink"]/span').text
         except Exception as e:
             print(goods_info['good_url'])
             print(e)
@@ -111,6 +110,12 @@ def get_goods_detail(browser, goods):
             sum_cost_time += cost_time
             continue
 
+        try:
+            questions = browser.find_element_by_xpath('.//a[@id="askATFLink"]/span').text
+        except Exception as e:
+            questions = ''
+            print(e)
+
         point = []
         for point_element in points_element:
             point.append(point_element.find_element_by_xpath('.//span').text)
@@ -125,6 +130,7 @@ def get_goods_detail(browser, goods):
             "img_url": img_url,
             "questions": questions,
         }
+        print(good_res)
         res.append(good_res)
         cost_time = calc_time_interval(start_time, return_date('time'))
         sum_cost_time += cost_time
@@ -137,6 +143,7 @@ def get_goods_detail(browser, goods):
 
 total_res = []
 for top_url in top_urls:
+    print(top_url)
     goods = get_goods_url(browser, top_url)
     total_res.extend(get_goods_detail(browser, goods))
 
