@@ -22,6 +22,9 @@ options.add_argument(
 options.add_argument('--headless')
 browser = webdriver.Chrome('./chromedriver.exe', chrome_options=options)
 
+num = 1
+sum_cost_time = 0
+
 
 # browser.execute_script("var q=document.documentElement.scrollTop=100000" )
 
@@ -74,9 +77,10 @@ def get_goods_url(browser, url):
 
 def get_goods_detail(browser, goods):
     res = []
-    num = 1
-    sum_cost_time = 0
     for rank, goods_info in goods.items():
+        global num
+        global sum_cost_time
+        print("排名：{}".format(rank))
         time.sleep(1)
         start_time = return_date('time')
 
@@ -103,6 +107,8 @@ def get_goods_detail(browser, goods):
                 "questions": 0,
             }
             res.append(good_res)
+            cost_time = calc_time_interval(start_time, return_date('time'))
+            sum_cost_time += cost_time
             continue
 
         point = []
@@ -137,6 +143,6 @@ for top_url in top_urls:
 print('goods calc:%ss ' % (calc_time_interval(s_time, return_date('time'))))
 df = pd.DataFrame(total_res,
                   columns=["rank", "price", 'goods_url', 'name', 'brand', 'score', 'point', 'img_url', 'questions'])
-df.to_csv('./ymx.csv', encoding='gbk', index=False)
+df.to_csv('./ymx.csv', encoding='utf-8', index=False)
 
 # browser.quit()
