@@ -83,9 +83,9 @@ def get_goods_detail(browser, goods):
         print("排名：{}".format(rank))
         time.sleep(1)
         start_time = return_date('time')
-
+        get_url = goods_info['good_url']
         try:
-            browser.get(goods_info['good_url'])
+            browser.get(get_url)
             name = browser.find_element_by_xpath('.//span[@id="productTitle"]').text
             brand = browser.find_element_by_xpath('.//a[@id="bylineInfo"]').text
             score = browser.find_element_by_xpath('.//span[@id="acrPopover"]').get_attribute("title")
@@ -97,7 +97,7 @@ def get_goods_detail(browser, goods):
             good_res = {
                 "rank": rank,
                 "price": goods_info['price'],
-                "good_url": goods_info['good_url'],
+                "good_url": get_url,
                 "name": '',
                 "brand": '',
                 "score": '',
@@ -122,7 +122,7 @@ def get_goods_detail(browser, goods):
         good_res = {
             "rank": rank,
             "price": goods_info['price'],
-            "good_url": goods_info['good_url'],
+            "goods_url": str(get_url),
             "name": name,
             "brand": brand,
             "score": score,
@@ -130,7 +130,6 @@ def get_goods_detail(browser, goods):
             "img_url": img_url,
             "questions": questions,
         }
-        print(good_res)
         res.append(good_res)
         cost_time = calc_time_interval(start_time, return_date('time'))
         sum_cost_time += cost_time
@@ -143,9 +142,9 @@ def get_goods_detail(browser, goods):
 
 total_res = []
 for top_url in top_urls:
-    print(top_url)
     goods = get_goods_url(browser, top_url)
     total_res.extend(get_goods_detail(browser, goods))
+
 
 print('goods calc:%ss ' % (calc_time_interval(s_time, return_date('time'))))
 df = pd.DataFrame(total_res,
