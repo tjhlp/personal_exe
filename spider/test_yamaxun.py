@@ -137,6 +137,7 @@ def get_goods_detail(browser, goods):
         print('The %s good calc:%ss ' % (num, cost_time))
         print('sum_time:%ss, avg_time calc:%ss ' % (sum_cost_time, avg_time))
         num += 1
+        print(good_res)
     return res
 
 

@@ -49,8 +49,8 @@ for i in range(1, 135):
             "up_price": up_price[tmp],
         }
         res.append(goods_info)
+        print(goods_info)
     total_res.extend(res)
-
 df = pd.DataFrame(total_res,
                   columns=["goods_code", "goods_name", 'goods_style', 'manufacturer', 'unit', 'price', 'up_price'])
 df.to_csv('./medicine.csv', encoding='utf-8', index=False)
