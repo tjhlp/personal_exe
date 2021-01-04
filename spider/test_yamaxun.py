@@ -19,7 +19,7 @@ options = webdriver.ChromeOptions()
 options.add_argument(
     'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36')
 
-options.add_argument('--headless')
+# options.add_argument('--headless')
 browser = webdriver.Chrome('./chromedriver.exe', chrome_options=options)
 
 num = 1
