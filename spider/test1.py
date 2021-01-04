@@ -22,12 +22,13 @@ params = {
 def run():
     try:
         a = requests.post(url='http://129.211.77.253:8000/amazon/spider/', json=params)
+        print(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
         print(a.text)
     except Exception as e:
         print(str(e))
 
 
 scheduler = BlockingScheduler()
-scheduler.add_job(func=run, args=('循环任务',), trigger='interval', seconds=3)
+scheduler.add_job(func=run, args=('循环任务',), trigger='interval', hours=1)
 
 scheduler.start()
