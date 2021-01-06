@@ -91,6 +91,7 @@ def get_goods_detail(browser, goods):
             score = browser.find_element_by_xpath('.//span[@id="acrPopover"]').get_attribute("title")
             points_element = browser.find_elements_by_xpath('.//div[@id="feature-bullets"]/ul/li')
             img_url = browser.find_element_by_xpath('.//div[@id="imgTagWrapperId"]/img').get_attribute("src")
+            reviews = browser.find_element_by_xpath('.//span[@id="acrCustomerReviewText"]').text
         except Exception as e:
             print(goods_info['good_url'])
             print(e)
@@ -104,6 +105,7 @@ def get_goods_detail(browser, goods):
                 "point": '',
                 "img_url": '',
                 "questions": 0,
+                "reviews": ''
             }
             res.append(good_res)
             cost_time = calc_time_interval(start_time, return_date('time'))
@@ -111,6 +113,15 @@ def get_goods_detail(browser, goods):
             continue
 
         try:
+            good_detail_list = browser.find_elements_by_xpath(
+                './/table[@id="productDetails_detailBullets_sections1"]/tr')
+            goods_detail = {}
+            for good_detail in good_detail_list:
+                detail_name = good_detail.find_element_by_xpath(
+                    './/th[@class="a-color-secondary a-size-base prodDetSectionEntry"]').text
+                detail_info = good_detail.find_element_by_xpath('.//td[@class="a-size-base"]').text
+                goods_detail[detail_name] = detail_info
+            print(goods_detail)
             questions = browser.find_element_by_xpath('.//a[@id="askATFLink"]/span').text
         except Exception as e:
             questions = ''
@@ -129,6 +140,7 @@ def get_goods_detail(browser, goods):
             "point": point,
             "img_url": img_url,
             "questions": questions,
+            "reviews": reviews,
         }
         res.append(good_res)
         cost_time = calc_time_interval(start_time, return_date('time'))
@@ -138,6 +150,7 @@ def get_goods_detail(browser, goods):
         print('sum_time:%ss, avg_time calc:%ss ' % (sum_cost_time, avg_time))
         num += 1
         print(good_res)
+        break
     return res
 
 
@@ -145,7 +158,7 @@ total_res = []
 for top_url in top_urls:
     goods = get_goods_url(browser, top_url)
     total_res.extend(get_goods_detail(browser, goods))
-
+    break
 
 print('goods calc:%ss ' % (calc_time_interval(s_time, return_date('time'))))
 df = pd.DataFrame(total_res,
