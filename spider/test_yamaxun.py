@@ -112,16 +112,13 @@ def get_goods_detail(browser, goods):
             sum_cost_time += cost_time
             continue
 
+        detail_list = {}
         try:
-            good_detail_list = browser.find_elements_by_xpath(
-                './/table[@id="productDetails_detailBullets_sections1"]/tr')
-            goods_detail = {}
+            good_detail_list = browser.find_elements_by_xpath('.//table[@class="a-bordered"]//tr')
             for good_detail in good_detail_list:
-                detail_name = good_detail.find_element_by_xpath(
-                    './/th[@class="a-color-secondary a-size-base prodDetSectionEntry"]').text
-                detail_info = good_detail.find_element_by_xpath('.//td[@class="a-size-base"]').text
-                goods_detail[detail_name] = detail_info
-            print(goods_detail)
+                detail_name = good_detail.find_element_by_xpath('./td[1]').text
+                detail_info = good_detail.find_element_by_xpath('./td[2]').text
+                detail_list[detail_name] = detail_info
             questions = browser.find_element_by_xpath('.//a[@id="askATFLink"]/span').text
         except Exception as e:
             questions = ''
@@ -142,6 +139,7 @@ def get_goods_detail(browser, goods):
             "questions": questions,
             "reviews": reviews,
         }
+        print(good_res)
         res.append(good_res)
         cost_time = calc_time_interval(start_time, return_date('time'))
         sum_cost_time += cost_time
