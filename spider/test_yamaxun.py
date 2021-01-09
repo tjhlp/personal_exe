@@ -153,6 +153,7 @@ def get_goods_detail(browser, goods):
     return res
 
 
+
 total_res = []
 for top_url in top_urls:
     goods = get_goods_url(browser, top_url)
