@@ -139,6 +139,7 @@ def get_goods_detail(browser, goods):
             "questions": questions,
             "reviews": reviews,
         }
+
         print(good_res)
         res.append(good_res)
         cost_time = calc_time_interval(start_time, return_date('time'))
