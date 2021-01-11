@@ -18,9 +18,8 @@
 #
 ################################################################################
 
-from federatedml.param.base_param import BaseParam
+from .base_param import BaseParam
 
-from federatedml.util import LOGGER
 
 class PredictParam(BaseParam):
     """
@@ -41,5 +40,4 @@ class PredictParam(BaseParam):
             raise ValueError("predict param's predict_param {} not supported, should be float or int".format(
                 self.threshold))
 
-        LOGGER.debug("Finish predict parameter check!")
         return True

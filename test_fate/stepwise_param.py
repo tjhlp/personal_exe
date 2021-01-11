@@ -17,8 +17,8 @@
 #  limitations under the License.
 
 
-from federatedml.param.base_param import BaseParam
-from federatedml.util import consts
+from .base_param import BaseParam
+from . import consts
 
 
 class StepwiseParam(BaseParam):
