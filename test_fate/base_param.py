@@ -19,7 +19,7 @@
 import builtins
 import json
 import os
-from federatedml.util import consts
+from test_fate import consts
 
 
 class BaseParam(object):
