@@ -18,15 +18,15 @@
 #
 import copy
 
-from .base_param import BaseParam
-from .cross_validation_param import CrossValidationParam
-from .encrypt_param import EncryptParam
-from .encrypted_mode_calculation_param import EncryptedModeCalculatorParam
-from .init_model_param import InitParam
-from .predict_param import PredictParam
-from .stepwise_param import StepwiseParam
-from .sqn_param import StochasticQuasiNewtonParam
-from . import consts
+from test_fate.base_param import BaseParam
+from test_fate.cross_validation_param import CrossValidationParam
+from test_fate.encrypt_param import EncryptParam
+from test_fate.encrypted_mode_calculation_param import EncryptedModeCalculatorParam
+from test_fate.init_model_param import InitParam
+from test_fate.predict_param import PredictParam
+from test_fate.stepwise_param import StepwiseParam
+from test_fate.sqn_param import StochasticQuasiNewtonParam
+from test_fate import consts
 
 
 class LogisticParam(BaseParam):
@@ -251,6 +251,7 @@ class HomoLogisticParam(LogisticParam):
         To scale the proximal term
 
     """
+
     def __init__(self, penalty='L2',
                  tol=1e-4, alpha=1.0, optimizer='rmsprop',
                  batch_size=-1, learning_rate=0.01, init_param=InitParam(),
@@ -340,3 +341,18 @@ class HeteroLogisticParam(LogisticParam):
         self.encrypted_mode_calculator_param.check()
         self.sqn_param.check()
         return True
+
+
+if __name__ == '__main__':
+    param = {
+        "penalty": 'L2', "tol": 1e-4, "alpha": 1.0, "optimizer": 'rmsprop',
+        "batch_size": -1, "learning_rate": 0.01, "init_param": InitParam(),
+        "max_iter": 100, "early_stop": 'diff', "encrypt_param": EncryptParam(),
+        "predict_param": PredictParam(), "cv_param": CrossValidationParam(),
+        "decay": 1, "decay_sqrt": True,
+        "multi_class": 'ovr', "validation_freqs": None, "early_stopping_rounds": None,
+        "stepwise_param": StepwiseParam(),
+        "metrics": None,
+        "use_first_metric_only": False
+    }
+    LogisticParam(param)
