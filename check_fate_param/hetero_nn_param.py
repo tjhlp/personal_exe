@@ -20,12 +20,12 @@ import copy
 import collections
 from types import SimpleNamespace
 
-from test_fate.base_param import BaseParam
-from test_fate.cross_validation_param import CrossValidationParam
-from test_fate.encrypt_param import EncryptParam
-from test_fate.encrypted_mode_calculation_param import EncryptedModeCalculatorParam
-from test_fate.predict_param import PredictParam
-from test_fate import consts
+from check_fate_param.base_param import BaseParam
+from check_fate_param.cross_validation_param import CrossValidationParam
+from check_fate_param.encrypt_param import EncryptParam
+from check_fate_param.encrypted_mode_calculation_param import EncryptedModeCalculatorParam
+from check_fate_param.predict_param import PredictParam
+from check_fate_param import consts
 
 
 class HeteroNNParam(BaseParam):

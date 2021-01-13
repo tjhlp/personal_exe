@@ -16,7 +16,7 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-from test_fate.base_param import BaseParam
+from check_fate_param.base_param import BaseParam
 
 
 class InitParam(BaseParam):

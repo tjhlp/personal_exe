@@ -19,7 +19,7 @@
 import builtins
 import json
 import os
-from test_fate import consts
+from check_fate_param import consts
 
 
 class BaseParam(object):

@@ -18,15 +18,15 @@
 #
 import copy
 
-from test_fate.base_param import BaseParam
-from test_fate.cross_validation_param import CrossValidationParam
-from test_fate.encrypt_param import EncryptParam
-from test_fate.encrypted_mode_calculation_param import EncryptedModeCalculatorParam
-from test_fate.init_model_param import InitParam
-from test_fate.predict_param import PredictParam
-from test_fate.stepwise_param import StepwiseParam
-from test_fate.sqn_param import StochasticQuasiNewtonParam
-from test_fate import consts
+from check_fate_param.base_param import BaseParam
+from check_fate_param.cross_validation_param import CrossValidationParam
+from check_fate_param.encrypt_param import EncryptParam
+from check_fate_param.encrypted_mode_calculation_param import EncryptedModeCalculatorParam
+from check_fate_param.init_model_param import InitParam
+from check_fate_param.predict_param import PredictParam
+from check_fate_param.stepwise_param import StepwiseParam
+from check_fate_param.sqn_param import StochasticQuasiNewtonParam
+from check_fate_param import consts
 
 
 class LogisticParam(BaseParam):
